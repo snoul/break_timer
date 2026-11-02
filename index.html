@@ -1,6 +1,6 @@
 <!--
   ==============================================================================
-  Nazwa aplikacji: BREAK TIMER (Wersja 1.1)
+  Nazwa aplikacji: BREAK TIMER (Wersja 1.2)
   - Minimalistyczna aplikacja typu PWA/Web App
   ==============================================================================
 -->
@@ -11,8 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>BREAK TIMER</title>
     <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
     <link rel="stylesheet" href="style.css">
-	<link rel="icon" type="image/png" href="icons/icon-192.png">
 </head>
 <body>
 
@@ -198,7 +198,7 @@
                 try {
                     new Notification(title, {
                         body: body,
-                        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%233b82f6"/></svg>'
+                        icon: 'icons/icon-192.png'
                     });
                 } catch (e) {
                     console.log('Notification error:', e);
@@ -253,7 +253,7 @@
 
             } else if (state === 'ALARM_WORK') {
                 dialContainer.classList.remove('dial-compact');
-                statusBadge.textContent = 'KONIEC CZASU!';
+                statusBadge.textContent = 'KONIEC CZASU PRACY!';
                 statusBadge.className = 'status-badge status-alarm';
                 dialProgress.style.stroke = '#ef4444';
                 dialProgress.style.strokeDashoffset = String(CIRCUMFERENCE);
@@ -261,7 +261,7 @@
                 timeSub.textContent = 'CZAS NA PRZERWĘ';
 
                 setupSection.style.display = 'none';
-                quickAddGroup.style.display = 'none';
+                quickAddGroup.style.display = 'flex';
                 breakNowContainer.style.display = 'none';
 
                 btnAction.textContent = 'Przerwa';
@@ -298,7 +298,7 @@
 
             } else if (state === 'ALARM_BREAK') {
                 dialContainer.classList.remove('dial-compact');
-                statusBadge.textContent = 'KONIEC PRZERWY';
+                statusBadge.textContent = 'KONIEC PRZERWY!';
                 statusBadge.className = 'status-badge status-alarm';
                 dialProgress.style.stroke = '#ef4444';
                 dialProgress.style.strokeDashoffset = String(CIRCUMFERENCE);
@@ -306,13 +306,13 @@
                 timeSub.textContent = 'WRÓĆ DO PRACY';
 
                 setupSection.style.display = 'none';
-                quickAddGroup.style.display = 'none';
+                quickAddGroup.style.display = 'flex';
                 breakNowContainer.style.display = 'none';
 
-                btnAction.textContent = 'Start Praca';
-                btnAction.className = 'btn-main btn-start';
-                btnSecondary.textContent = 'Reset';
-                btnSecondary.className = 'btn-main btn-reset';
+                btnAction.textContent = 'Ponów';
+                btnAction.className = 'btn-main btn-break';
+                btnSecondary.textContent = 'Koniec przerwy';
+                btnSecondary.className = 'btn-main btn-break-end';
             }
         }
 
@@ -354,10 +354,9 @@
                     if (currentRemainingSec <= 0) {
                         currentRemainingSec = 0;
                         stopLoop();
+                        state = 'ALARM_BREAK';
                         playGentleSound();
-                        sendNotification('BREAK TIMER: Przerwa zakończona', 'Rozpoczynam kolejny cykl pracy.');
-                        startWorkCycle();
-                        return;
+                        sendNotification('BREAK TIMER: Przerwa zakończona', 'Czas wrócić do pracy.');
                     }
                 }
                 updateUI();
@@ -387,7 +386,7 @@
                 state = 'RUNNING_BREAK';
                 startLoop();
             } else if (state === 'ALARM_BREAK') {
-                startWorkCycle();
+                startBreakCycle();
             }
             updateUI();
         }
@@ -397,7 +396,7 @@
                 resetToIdle();
             } else if (state === 'ALARM_WORK') {
                 startWorkCycle();
-            } else if (state === 'RUNNING_BREAK' || state === 'PAUSED_BREAK') {
+            } else if (state === 'RUNNING_BREAK' || state === 'PAUSED_BREAK' || state === 'ALARM_BREAK') {
                 startWorkCycle();
             } else if (state === 'IDLE') {
                 resetToDefaults();
@@ -566,6 +565,11 @@
                     currentRemainingSec += secToAdd;
                     totalSpanSec += secToAdd;
                 }
+            } else if (state === 'ALARM_BREAK') {
+                currentRemainingSec = secToAdd;
+                totalSpanSec = secToAdd;
+                state = 'RUNNING_BREAK';
+                startLoop();
             } else if (state === 'IDLE') {
                 adjustWorkTime(secToAdd);
             }
