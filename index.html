@@ -1,6 +1,6 @@
 <!--
   ==============================================================================
-  Nazwa aplikacji: BREAK TIMER (Wersja 1.4.2 beta)
+  Nazwa aplikacji: BREAK TIMER (Wersja 1.4.4 beta)
   - Minimalistyczna aplikacja typu PWA/Web App
   ==============================================================================
 -->
@@ -33,54 +33,54 @@
         </div>
     </div>
 
-    <!-- Środkowa część układu -->
-    <div class="middle-content">
-        <!-- Sekcja konfiguracji (tylko w stanie IDLE) -->
-        <div id="setupSection" class="setup-section">
-            <!-- Karta Pracy -->
-            <div class="config-card">
-                <div class="config-header">
-                    <span class="config-title">Czas Pracy (MM:SS)</span>
-                </div>
-                <div class="adjuster-row">
-                    <button class="btn-step" onclick="adjustWorkTime(-300)">-5m</button>
-                    <div class="manual-input-box">
-                        <input type="text" id="inputMin" maxlength="3" value="40" onchange="manualWorkInputChanged()">
-                        <span>:</span>
-                        <input type="text" id="inputSec" maxlength="2" value="00" onchange="manualWorkInputChanged()">
-                    </div>
-                    <button class="btn-step" onclick="adjustWorkTime(300)">+5m</button>
-                </div>
-                <div class="preset-grid-3">
-                    <button class="btn-preset" onclick="setWorkPreset(1800, this)">30 min</button>
-                    <button class="btn-preset active-work" onclick="setWorkPreset(2400, this)">40 min</button>
-                    <button class="btn-preset" onclick="setWorkPreset(3300, this)">55 min</button>
-                </div>
-            </div>
+    <!-- Środkowa część układu (elastyczny odstęp) -->
+    <div class="middle-content"></div>
 
-            <!-- Karta Przerwy -->
-            <div class="config-card">
-                <div class="config-header">
-                    <span class="config-title">Czas Przerwy (MM:SS)</span>
+    <!-- Sekcja konfiguracji (tylko w stanie IDLE) -->
+    <div id="setupSection" class="setup-section">
+        <!-- Karta Pracy -->
+        <div class="config-card">
+            <div class="config-header">
+                <span class="config-title">Czas Pracy (MM:SS)</span>
+            </div>
+            <div class="adjuster-row">
+                <button class="btn-step" onclick="adjustWorkTime(-300)">-5m</button>
+                <div class="manual-input-box">
+                    <input type="text" id="inputMin" maxlength="3" value="40" onchange="manualWorkInputChanged()">
+                    <span>:</span>
+                    <input type="text" id="inputSec" maxlength="2" value="00" onchange="manualWorkInputChanged()">
                 </div>
-                <div class="adjuster-row">
-                    <button class="btn-step" onclick="adjustBreakTime(-30)">-30s</button>
-                    <div class="manual-input-box">
-                        <input type="text" id="breakInputMin" maxlength="3" value="00" onchange="manualBreakInputChanged()">
-                        <span>:</span>
-                        <input type="text" id="breakInputSec" maxlength="2" value="00" onchange="manualBreakInputChanged()">
-                    </div>
-                    <button class="btn-step" onclick="adjustBreakTime(30)">+30s</button>
+                <button class="btn-step" onclick="adjustWorkTime(300)">+5m</button>
+            </div>
+            <div class="preset-grid-3">
+                <button class="btn-preset" onclick="setWorkPreset(1800, this)">30 min</button>
+                <button class="btn-preset active-work" onclick="setWorkPreset(2400, this)">40 min</button>
+                <button class="btn-preset" onclick="setWorkPreset(3300, this)">55 min</button>
+            </div>
+        </div>
+
+        <!-- Karta Przerwy -->
+        <div class="config-card">
+            <div class="config-header">
+                <span class="config-title">Czas Przerwy (MM:SS)</span>
+            </div>
+            <div class="adjuster-row">
+                <button class="btn-step" onclick="adjustBreakTime(-30)">-30s</button>
+                <div class="manual-input-box">
+                    <input type="text" id="breakInputMin" maxlength="3" value="00" onchange="manualBreakInputChanged()">
+                    <span>:</span>
+                    <input type="text" id="breakInputSec" maxlength="2" value="00" onchange="manualBreakInputChanged()">
                 </div>
-                <div class="break-row-1">
-                    <button class="btn-preset active-break" onclick="setBreakPreset(0, this)">0 min (Stoper)</button>
-                    <button class="btn-preset" onclick="setBreakPreset(300, this)">5 min</button>
-                </div>
-                <div class="break-row-2">
-                    <button class="btn-preset" onclick="setBreakPreset(120, this)">2 min</button>
-                    <button class="btn-preset" onclick="setBreakPreset(180, this)">3 min</button>
-                    <button class="btn-preset" onclick="setBreakPreset(600, this)">10 min</button>
-                </div>
+                <button class="btn-step" onclick="adjustBreakTime(30)">+30s</button>
+            </div>
+            <div class="break-row-1">
+                <button class="btn-preset active-break" onclick="setBreakPreset(0, this)">0 min (Stoper)</button>
+                <button class="btn-preset" onclick="setBreakPreset(300, this)">5 min</button>
+            </div>
+            <div class="break-row-2">
+                <button class="btn-preset" onclick="setBreakPreset(120, this)">2 min</button>
+                <button class="btn-preset" onclick="setBreakPreset(180, this)">3 min</button>
+                <button class="btn-preset" onclick="setBreakPreset(600, this)">10 min</button>
             </div>
         </div>
     </div>
